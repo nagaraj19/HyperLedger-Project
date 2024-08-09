@@ -56,7 +56,7 @@ presetup(){
 CHANNEL_NAME="mychannel"
 CC_RUNTIME_LANGUAGE="golang"
 VERSION="1"
-CC_SRC_PATH="./artifacts/src/github.com/fabcar/go/"
+CC_SRC_PATH="./artifacts/src/github.com/fabcar_contract_api/go/"
 CC_NAME="fabcar"
 
 packageChaincode(){
@@ -65,7 +65,7 @@ packageChaincode(){
     peer lifecycle chaincode package ${CC_NAME}.tar.gz --path ${CC_SRC_PATH} --lang ${CC_RUNTIME_LANGUAGE} --label ${CC_NAME}_${VERSION}
     echo "===================== Chaincode is packaged on peer0.org1 ===================== "
 }
-
+# packageChaincode
 installChaincode(){
     setGlobalsForPeer0Org1
     peer lifecycle chaincode install ${CC_NAME}.tar.gz
@@ -83,7 +83,7 @@ installChaincode(){
     peer lifecycle chaincode install ${CC_NAME}.tar.gz
     echo "===================== Chaincode is installed on peer1.org2 ===================== "
 }
-
+# installChaincode
 queryInstalled(){
     setGlobalsForPeer0Org1
     peer lifecycle chaincode queryinstalled >&log.txt
@@ -92,7 +92,7 @@ queryInstalled(){
     echo PackageID is ${PACKAGE_ID}
     echo "===================== Query installed successful on peer0.org1 on channel ===================== "
 }
-
+# queryInstalled
 approveForMyOrg1(){
     setGlobalsForPeer0Org1
 
@@ -105,6 +105,7 @@ approveForMyOrg1(){
     echo "===================== chaincode approved from org 1 ===================== "
     
 }
+# approveForMyOrg1
 
 # --signature-policy "OR ('Org1MSP.member')"
 # --peerAddresses localhost:7051 --tlsRootCertFiles $PEER0_ORG1_CA --peerAddresses localhost:9051 --tlsRootCertFiles $PEER0_ORG2_CA
@@ -121,7 +122,7 @@ checkCommitReadyness(){
 
     echo "===================== checking commit readyness from org 1 ===================== "
 }
-
+# checkCommitReadyness
 approveForMyOrg2(){
     setGlobalsForPeer0Org2
 
@@ -134,7 +135,7 @@ approveForMyOrg2(){
 
     echo "===================== chaincode approved from org 2 ===================== "
 }
-
+# approveForMyOrg2
 checkCommitReadyness(){
     
     setGlobalsForPeer0Org1
@@ -146,7 +147,7 @@ checkCommitReadyness(){
 
     echo "===================== checking commit readyness from org 1 ===================== "
 }
-
+# checkCommitReadyness
 commitChaincodeDefination(){
     setGlobalsForPeer0Org1
 
@@ -161,6 +162,7 @@ commitChaincodeDefination(){
    
    echo "===================== Chaincode Defination commited on peer0-org 1 and peer0-org2 ===================== "
 }
+# commitChaincodeDefination
 
 queryCommitted(){
     setGlobalsForPeer0Org1
@@ -169,7 +171,7 @@ queryCommitted(){
 
     
 }
-
+# queryCommitted
 chaincodeInvokeInit(){
     setGlobalsForPeer0Org1
 
@@ -180,6 +182,8 @@ chaincodeInvokeInit(){
     --isInit -c '{"function":"initLedger","Args":[]}'
     
 }
+# 
+
 
 
 chaincodeInvoke(){
@@ -215,18 +219,19 @@ chaincodeInvoke(){
         --peerAddresses localhost:7051 \
         --tlsRootCertFiles $PEER0_ORG1_CA \
         --peerAddresses localhost:9051 --tlsRootCertFiles $PEER0_ORG2_CA $PEER_CONN_PARMS  \
-        -c '{"function": "ChangeCarOwner","Args":["Car-ABCDEEE", "Sandip"]}'
+        -c '{"function": "ChangeCarOwner","Args":["CAR0", "Nagaraj"]}'
 }
-
+chaincodeInvoke
 chaincodeQuery(){
     setGlobalsForPeer0Org1
 
     # Query all Cars
-    peer chaincode query -C $CHANNEL_NAME -n ${CC_NAME} -c '{"Args":["queryAllCars"]}'
+    # peer chaincode query -C $CHANNEL_NAME -n ${CC_NAME} -c '{"Args":["queryAllCars"]}'
 
     # Query by Car id
-    peer chaincode query -C $CHANNEL_NAME -n ${CC_NAME} -c '{"Args":["queryCar", "Car-ABCDEEE"]}'
+    peer chaincode query -C $CHANNEL_NAME -n ${CC_NAME} -c '{"Args":["queryCar", "CAR0"]}'
 }
+# chaincodeQuery
 
 # packageChaincode
 # installChaincode
@@ -238,5 +243,5 @@ chaincodeQuery(){
 # commitChaincodeDefination
 # queryCommitted
 # chaincodeInvokeInit
-chaincodeInvoke
-chaincodeQuery
+# chaincodeInvoke
+# chaincodeQuery
